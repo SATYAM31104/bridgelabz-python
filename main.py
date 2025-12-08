@@ -19,8 +19,8 @@ move_map = {
 }
 # UC2
 noplay = 0
-ladder = 1
-snake = 2
+ladder = [3,8,67,45,]
+snake = [2,3,8,67,88,99]
 win = 3
 
 dice = play_map.get(random.randint(0,3),"No play")
@@ -106,87 +106,65 @@ while (pos != 100):
 print("The total Rolls taken to win", roll)
 
 
-# uc6
-pos1 = 0
-pos2 = 0
-roll1 = 0
-roll2 = 0
+
+def play_turn(curr):
+    dice = random.randint(1,6)
+    options = random.randint(0,3)
+    old_pos = curr
+    
+    print("The dice number is", dice)
+    print("The current position of the player is", curr)
+    print("The option is", options)
+
+    if options == noplay:
+        print("No play")
+    elif options == ladder:
+        print("Move up the ladder")
+        curr += dice
+    elif options == snake:
+        print("Move down the snake")
+        curr -= dice
+    else:  
+        print("Move")
+        curr += dice
+
+    if curr > 100 or curr <+ 0:
+        curr = old_pos
+        print("Stay in the same position")
+    # if curr < 0:
+    #     curr = 0
+    #     print("Restart from 0")
+
+    return curr 
+
+# UC7
+pos = [0, 0]
+roll = [0, 0]
+
 noplay = 0
 ladder = 1
 snake = 2
 win = 3
-current_player = 1
 
-while (pos1 != 100 and pos2 != 100):
-    dice = random.randint(1, 6)
-    options = random.randint(0, 3)
+current_player = 0
 
-    if current_player == 1:
-        old_pos = pos1
-        print("Player 1 turn")
-        print("The dice number is", dice)
-        print("Player 1 current position is", pos1)
-        print("The option is", options)
-        roll1 += 1
+while pos[0] != 100 and pos[1] != 100:
+    print("Player", current_player + 1, "turn")
 
-        if options == noplay:
-            print("No play")
-        elif options == ladder:
-            print("Move up the ladder")
-            pos1 += dice
-        elif options == snake:
-            print("Move down the snake")
-            pos1 -= dice
-        else:
-            print("Move")
-            pos1 += dice
+    new_position = play_turn(pos[current_player])  
+    pos[current_player] = new_position
+    roll[current_player] += 1
 
-        if pos1 > 100:
-            pos1 = old_pos
-            print("Stay in the same position")
+    print("The new position of the player is", pos[current_player])
 
-        if pos1 < 0:
-            pos1 = 0
-            print("Restart from 0")
+    if pos[current_player] == 100:
+        print("Player", current_player + 1, "wins the game")
+        print("Player 1 total rolls:", roll[0])
+        print("Player 2 total rolls:", roll[1])
+        break
 
-        print("Player 1 new position is", pos1)
-        current_player = 2
-    else:
-        old_pos = pos2
-        print("Player 2 turn")
-        print("The dice number is", dice)
-        print("Player 2 current position is", pos2)
-        print("The option is", options)
-        roll2 += 1
-
-        if options == noplay:
-            print("No play")
-        elif options == ladder:
-            print("Move up the ladder")
-            pos2 += dice
-        elif options == snake:
-            print("Move down the snake")
-            pos2 -= dice
-        elif options == win:
-            print("Move")
-            pos2 += dice
-
-        if pos2 > 100:
-            pos2 = old_pos
-            print("Stay in the same position")
-
-        if pos2 < 0:
-            pos2 = 0
-            print("Restart from 0")
-
-        print("Player 2 new position is", pos2)
+    
+    if current_player == 0:
         current_player = 1
-
-if pos1 == 100:
-    print("Player 1 wins")
-    print("Player 1 total rolls", roll1)
-    print("Player 2 total rolls", roll2)
-else:
-    print("Player 2 wins")
-    print("Player 1 total rolls", roll1)
-    print("Player 2 total rolls", roll2)
+    else:
+        current_player = 0
