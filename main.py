@@ -17,3 +17,18 @@ move_map = {
     2:"Ladder",
     3:"Move"
 }
+# UC2
+noplay = 0
+ladder = 1
+snake = 2
+win = 3
+
+dice = play_map.get(random.randint(0,3),"No play")
+if dice == noplay:
+    print("No play")
+if dice == ladder:
+    print("Move up the ladder")
+elif(dice == snake):
+    print("Move down the snake")
+elif(dice == win):
+    print("Move")
