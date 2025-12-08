@@ -137,7 +137,7 @@ while (pos1 != 100 and pos2 != 100):
         elif options == snake:
             print("Move down the snake")
             pos1 -= dice
-        elif options == win:
+        else:
             print("Move")
             pos1 += dice
 
